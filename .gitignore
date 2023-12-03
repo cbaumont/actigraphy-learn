@@ -111,5 +111,6 @@ venv.bak/
 # Mac OS stuff
 .DS_Store
 
-# CSV files
+# Test files
 *.csv
+*.txt
