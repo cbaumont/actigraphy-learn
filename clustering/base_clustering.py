@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import pyActigraphy
 from sklearn.cluster import KMeans
 
 class BaseClustering():
@@ -22,3 +23,13 @@ class BaseClustering():
         plt.scatter(centroids[:, 0], [0] * len(centroids), marker="*", c="red", s=100)
         # Show the plot
         plt.show()
+    
+    def kmeans_light_data(self, light_channel):
+        rawFile = pyActigraphy.io.read_raw_atr(self.file_path)
+        data_frame = rawFile.light.get_channels([light_channel])
+        kmeans = KMeans(n_clusters = self.n_clusters)
+        kmeans.fit(data_frame[[light_channel]])
+        labels = kmeans.labels_
+        centroids = kmeans.cluster_centers_
+        data_frame["cluster"] = labels
+        return data_frame
